@@ -1,0 +1,28 @@
+.headline{
+	font-size: 36px;
+	color: #000;
+}
+.fa{
+	font-size: 48px;
+	color: #000;
+}
+.icons{
+	max-width: 52px;
+}
+.socials{
+	list-style: none;
+}
+.socials li{
+	display: inline-block;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+*{
+	text-align: center;
+}
+li.icons.amazon {
+	padding-right: 0px;
+padding-left: 0px;
+margin-left: 15px;
+margin-bottom: -10px;
+}
