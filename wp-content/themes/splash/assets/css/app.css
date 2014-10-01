@@ -124,7 +124,7 @@ figure.alignnone { margin-left: 0; margin-right: 0; }
 /* No media query since this is the default in Bootstrap */
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: @screen-sm) { }
+@media (min-width: 768px) { }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
@@ -135,4 +135,4 @@ margin-top: 5%;
  }
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: @screen-lg) { }
+@media (min-width: 1200px) { }
