@@ -1,8 +1,8 @@
 wp-config.php
 perms.sh
 *.log
-assets/
-media/
+/assets/
+/media/
 sitemap.xml
 sitemap.xml.gz
 wp-config.php

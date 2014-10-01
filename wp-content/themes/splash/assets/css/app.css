@@ -1,0 +1,138 @@
+/*!
+ * Roots 6.5.0
+ */
+/*splash*/
+.banner{
+   display: none!important;
+}
+.headline{
+   font-size: 36px;
+   color: #000;
+}
+.fa{
+   font-size: 48px;
+   color: #000;
+}
+.icons{
+   max-width: 52px;
+}
+.socials{
+   padding-left: 0px;
+   list-style: none;
+}
+.socials li{
+   display: inline-block;
+   padding-left: 15px;
+   padding-right: 15px;
+}
+*{
+   text-align: center;
+}
+li.icons.amazon {
+   padding-right: 0px;
+padding-left: 0px;
+margin-left: 15px;
+margin-bottom: -10px;
+}
+.credits{
+   display: none;
+}
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+body { }
+
+
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.banner { }
+
+
+
+/* ==========================================================================
+   Content
+   ========================================================================== */
+
+.content { }
+
+
+
+/* ==========================================================================
+   Primary Content
+   ========================================================================== */
+
+.main { }
+
+/* Gallery Shortcode */
+.gallery-row { padding: 15px 0; }
+
+
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.sidebar { }
+
+
+
+/* ==========================================================================
+   Posts
+   ========================================================================== */
+
+.hentry header { }
+.hentry time { }
+.hentry .byline { }
+.hentry .entry-content { }
+.hentry footer { }
+
+
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.content-info { }
+
+#social ul {margin:0px; padding:0px; list-style: none;}
+#social li {margin:0px; padding: 0px list-style:none; display: block; float:left;}
+#social li a {padding: 10px;}
+
+
+
+/* ==========================================================================
+   WordPress Generated Classes
+   See: http://codex.wordpress.org/CSS#WordPress_Generated_Classes
+   ========================================================================== */
+
+.aligncenter { display: block; margin: 0 auto; }
+.alignleft { float: left; }
+.alignright { float: right; }
+figure.alignnone { margin-left: 0; margin-right: 0; }
+
+
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+/* Extra small devices (phones, up to 480px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: @screen-sm) { }
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+.container {
+width: 1170px;
+margin-top: 5%;
+}
+ }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: @screen-lg) { }
