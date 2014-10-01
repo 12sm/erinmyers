@@ -1,4 +1,5 @@
 wp-config.php
+deploy.php
 perms.sh
 *.log
 /assets/
