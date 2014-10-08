@@ -4,10 +4,10 @@
 	</div>
 </div>
 <div class='row margin-top-md'>
-	<div class='col-sm-4 col-sm-offset-2'>
+	<div class='col-sm-6'>
 		<p> Popular posts here</p>
 	</div>
-	<div class='col-sm-4'>
+	<div class='col-sm-6'>
 		<?php echo do_shortcode('[wpv-view name="HOME VIDEO"]'); ?>
 	</div>
 </div>
