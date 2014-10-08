@@ -59,12 +59,12 @@ h1,h2,h3,h4,h5,h6,p,a{
 h1{
    font-weight: 900;
    letter-spacing: 3px;
-   color: #5F8993;
+   color: #618a94;
 }
 h2{
    letter-spacing: .0px;
    font-weight: 500;
-   color: #fff;
+   color: #618a94;
 }
 h3{
    font-weight: 300;
@@ -231,7 +231,17 @@ h1.video-title{
    font-size: 15px;
    color: #618a94;
 }
-
+p.video-thumb-title {
+text-align: center;
+margin-top: 5px;
+}
+.video-block {
+padding-bottom: 25px;
+}
+.btn-vid{
+float: right;
+margin-bottom: 10px;
+}
 /* ==========================================================================
    Header
    ========================================================================== */

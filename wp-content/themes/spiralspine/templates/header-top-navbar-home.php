@@ -19,7 +19,7 @@
     </nav>
   </div>
   <div class="row slider">
-  	Slider goes here  
+  	<?php echo do_shortcode('[rev_slider home-slider]'); ?>
   </div>
   <div class="container-fluid">
     <div class="row email-signup">
