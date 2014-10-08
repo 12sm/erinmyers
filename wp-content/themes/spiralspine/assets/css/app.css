@@ -46,17 +46,151 @@ margin-bottom: -10px;
    Base
    ========================================================================== */
 
-body { }
+body {background: #436268; }
 
+h1,h2,h3,h4,h5,h6,p,a{
+   font-family: "museo-sans";
+}
+h1{
+   font-weight: 900;
+   letter-spacing: 3px;
+   box-shadow:  1px 1px 1px #000;
+   color: #fff;
+}
+h2{
+   letter-spacing: .0px;
+   font-weight: 500;
+   color: #fff;
+}
+h3{
+   font-weight: 300;
+   letter-spacing: .0px;
+   color: #fff;
+}
+/*
+ ***************************************************************
+   The following are ordered by the styles in the style guide. 
+   I've tried to label them as clearly as possible.
+   Please see me (Ian) with any questions.  
+ ***************************************************************
+*/
 
+/*Praise for Erin*/
+.praise .line1{
+   font-weight: 700;
+   text-transform: uppercase;
+   font-size: 25px;
+   color: #fff;
+}
+.praise .line2{
+   font-weight: 100;
+   font-size: 25px;
+   color: #fff;
+}
+.praise .line3{
+   font-weight: 700;
+   font-size: 18px;
+   color: #fff;
+}
+/* New Book Coming Soon */
+.new-book{
+   font-weight: 700;
+   font-size: 25px;
+   color: #fff;
+}
+/* Strength Tip */
+.blog-title{
+   font-weight: 700;
+   font-size: 32px;
+   color: #fff;
+}
+.btn .btn-blue{
+   font-weight: 900;
+   font-size: 16px;
+   text-transform: uppercase;
+   letter-spacing: .02em;
+}
+/* Most Popular */
+.most-popular{
+   font-weight: 700;
+   font-size: 17px;
+   color: #fff;
+}
+
+/* Strength Tip #10 (Blog Roll)? */
+.blog-roll .line1{
+   font-weight: 700;
+   font-size: 38px;
+   color: #618a94;
+}
+.blog-roll .line2{
+   font-weight: 500;
+   font-size: 18px;
+   color: #618a94;
+}
+
+/* ==========================================================================
+   About (See the Style Guide)
+   ========================================================================== */
+.about h1{
+   color: #618a94;
+   font-size: 32px;
+   font-weight: 500;
+}
+.about h4{
+   font-weight: 500;
+   font-size: 24px;
+   color: #618a94;
+}
+.about p{
+   color: #618a94;
+   font-weight: 500;
+   font-size: 15px;
+   line-height:29px;
+}
+.about .btn{
+   font-weight: 900;
+   font-size: 16px;
+   color: #fff;
+}
+.about *{
+   letter-spacing: .02em
+}
+/* ==========================================================================
+   Videos (See the Style Guide)
+   ========================================================================== */
+h1.video-title{
+   font-weight: 500;
+   font-size: 32px;
+   color: #618a94;
+}
+.gallery-header{
+   font-weight: 500;
+   font-size: 24px;
+   color: #618a94;
+}
+.gallery-titles{
+   font-weight: 500;
+   font-size: 15px;
+   color: #618a94;
+}
 
 /* ==========================================================================
    Header
    ========================================================================== */
 
-.banner { }
+.banner {background: #628A94; box box-shadow: 2px 5px 5px #436268;}
 
-
+.banner a{
+   text-transform: uppercase;
+   font-size: 17px;
+   letter-spacing: .02em;
+}
+.banner a:hover{
+   transition: background-color .5s swing;
+   background-color: #fff;
+   border-radius: 20px;
+}
 
 /* ==========================================================================
    Content
@@ -129,7 +263,17 @@ figure.alignnone { margin-left: 0; margin-right: 0; }
 /* No media query since this is the default in Bootstrap */
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) { }
+@media (min-width: 768px) {
+h1{
+   font-size: 76px;
+}
+h2{
+   font-size: 37px;
+}
+h3{
+   font-size: 29px;
+}
+ }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {

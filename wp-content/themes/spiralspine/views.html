@@ -1,0 +1,32 @@
+<!-- HOME BLOG FEATURE <!-->
+<div class='row'>
+	<div class='col-sm-12 home-blog'>
+		<div class='img-bg'>
+			<img src='[wpv-post-featured-image size="medium"]'>
+		</div>
+		<div class='blog-title-banner'>
+		<a href="[wpv-post-url]">
+			<h2 class="blog-title">[wpv-post-title]</h2>
+		</a>
+		<a href="[wpv-post-url]" class="btn btn-blue">
+			Read More
+		</a>
+	</div>
+</div>
+
+<!-- HOME VIDEO <!-->
+<div class='video-box'>
+	<a href="[wpv-post-url]">
+		<div class='home-boxes'> 
+			Recent Videos
+		</div>
+		<div class='vid-thumb'>
+			[wpv-if evaluate="[thumb] = '1'"]
+				[wpv-post-featured-image]
+			[/wpv-if]
+			[wpv-if evaluate="[thumb] = '1'"]
+				[custom thumb]
+			[/wpv-if]
+		</div>
+	</a>
+</div>
