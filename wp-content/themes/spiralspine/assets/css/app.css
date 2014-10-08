@@ -249,19 +249,38 @@ margin-bottom: 10px;
 .banner {
    background: #628A94;
    border-bottom: 15px solid #436268;
+   padding: 15px 0px;
 }
 
-.nav>li>a{
-   text-transform: uppercase;
-   font-size: 17px;
-   letter-spacing: .02em;
+.navbar-default .navbar-nav>li>a {
+text-transform: uppercase;
+font-size: 17px;
+letter-spacing: .04em;
+border-radius: 20px;
+margin: 0px 5px;
+padding: 6px 10px;
+font-weight: 600;
+-webkit-transition: all 0.3s;
+-moz-transition: all 0.3s;
+transition: all 0.3s;
 }
-.nav>li>a:hover{
-   transition: background-color .5s swing;
-   background-color: #fff;
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
    border-radius: 20px;
-   color:#618a94;:
+   color:#618a94;
+   background-color: #fff;
 }
+
+.navbar-default .navbar-nav>li>a:hover:after {
+height:75%;
+opacity:1;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+   color:#618a94;
+   background-color: #fff;
+}
+
 a.navbar-brand {
 max-width: 110px;
 padding: 0px;
@@ -270,7 +289,7 @@ margin-left: 75px!important;
 
 ul#menu-primary-navigation {
 float: right;
-margin-right: 25px;
+margin: 10px 25px 0px 0px;
 }
 .navbar-default .navbar-nav>li>a{
    color: #fff;
