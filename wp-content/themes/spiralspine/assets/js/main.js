@@ -24,6 +24,10 @@ var Roots = {
     init: function() {
       // JavaScript to be fired on all pages
        $('.img-lq').imgLiquid();
+       
+       $('.nav li a').hover(function () {
+         $(this).toggleClass('animated pulse');
+        });
     }
   },
   // Home page
