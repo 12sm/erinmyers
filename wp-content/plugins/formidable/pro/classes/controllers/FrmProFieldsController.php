@@ -4,7 +4,7 @@ class FrmProFieldsController{
     public static function load_hooks() {
         add_filter('frm_show_normal_field_type', 'FrmProFieldsController::show_normal_field', 10, 2);
         add_filter('frm_normal_field_type_html', 'FrmProFieldsController::normal_field_html', 10, 2);
-        add_action('frm_show_other_field_type', 'FrmProFieldsController::show_other', 10, 2);
+        add_action('frm_show_other_field_type', 'FrmProFieldsController::show_other', 10, 3);
         add_filter('frm_field_type', 'FrmProFieldsController::change_type', 15, 2);
         add_filter('frm_field_value_saved', 'FrmProFieldsController::use_field_key_value', 10, 3);
         add_action('frm_get_field_scripts', 'FrmProFieldsController::show_field', 10, 2);
@@ -50,7 +50,7 @@ class FrmProFieldsController{
         return $show;
     }
     
-    public static function show_other($field, $form){
+    public static function show_other($field, $form, $args) {
         global $frm_vars;
         $field_name = "item_meta[$field[id]]";
         require(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-fields/show-other.php');
@@ -76,7 +76,7 @@ class FrmProFieldsController{
     }
     
     public static function use_field_key_value($opt, $opt_key, $field){
-        //if(in_array($field['post_field'], array('post_category', 'post_status')) or ($field['type'] == 'user_id' and is_admin() and is_super_admin()))
+        //if(in_array($field['post_field'], array('post_category', 'post_status')) or ($field['type'] == 'user_id' and is_admin() and current_user_can('administrator')))
         if((isset($field['use_key']) and $field['use_key']) or 
             (isset($field['type']) and $field['type'] == 'data') or 
             (isset($field['post_field']) and $field['post_field'] == 'post_status')
@@ -223,7 +223,7 @@ class FrmProFieldsController{
         $entry_id = isset($frm_vars['editing_entry']) ? $frm_vars['editing_entry'] : false;
         
         if($field['type'] == 'form' and $field['form_select'])
-            $dup_fields = $frm_field->getAll("fi.form_id='$field[form_select]' and fi.type not in ('break', 'captcha')");
+            $dup_fields = $frm_field->getAll("fi.form_id='". (int) $field['form_select'] ."' and fi.type not in ('break', 'captcha')");
         
         require(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-fields/form-fields.php');
     }
@@ -233,10 +233,10 @@ class FrmProFieldsController{
         
         $add_html = '';
 
-        if(isset($field['read_only']) and $field['read_only']){
+        if ( isset($field['read_only']) && $field['read_only'] && $field['type'] != 'hidden' ) {
             global $frm_vars;
 
-            if((isset($frm_vars['readonly']) && $frm_vars['readonly'] == 'disabled') || (is_super_admin() && is_admin() && !defined('DOING_AJAX'))){
+            if ( (isset($frm_vars['readonly']) && $frm_vars['readonly'] == 'disabled') || (current_user_can('frm_edit_entries') && is_admin() && !defined('DOING_AJAX')) ) {
                 //not read only
             //}else if($field['type'] == 'select'){
                 //$add_html .= ' disabled="disabled" ';
@@ -275,12 +275,6 @@ class FrmProFieldsController{
                 if((!isset($frm_vars['novalidate']) or !$frm_vars['novalidate']) and ($field['type'] != 'email' or (isset($field['value']) and $field['default_value'] == $field['value'])))
                     $frm_vars['novalidate'] = true;
             }
-        }
-
-        if(isset($field['dependent_fields']) and $field['dependent_fields']){
-            $trigger = ($field['type'] == 'checkbox' or $field['type'] == 'radio') ? 'onclick' : 'onchange';            
-            
-            $add_html .= ' '. $trigger .'="frmCheckDependent('. (($field['type'] == 'select' or ($field['type'] == 'data' and isset($field['data_type']) and $field['data_type'] == 'select')) ? 'jQuery(this).val()' : 'this.value') .',\''.$field['id'].'\')"';
         }
         
         if($echo)
@@ -378,6 +372,10 @@ class FrmProFieldsController{
         global $frm_field, $frm_entry_meta;
         $current_field_id = $_POST['current_field'];
         $new_field = $frm_field->getOne($_POST['field_id']);
+        
+        $is_settings_page = ( $_POST['form_action'] == 'update_settings' ) ? true : false;
+        $anything = $is_settings_page ? '' : __('Anything', 'formidable');
+        
         if(!empty($_POST['name']) and $_POST['name'] != 'undefined')
             $field_name = $_POST['name'];
         if(!empty($_POST['t']) and $_POST['t'] != 'undefined')
@@ -473,7 +471,7 @@ class FrmProFieldsController{
     }
     
     public static function ajax_get_data(){
-        $entry_id = FrmAppHelper::get_param('entry_id'); 
+        $entry_id = trim(FrmAppHelper::get_param('entry_id'), ','); 
         $field_id = FrmAppHelper::get_param('field_id');
         $current_field = (int)FrmAppHelper::get_param('current_field');
         
@@ -510,8 +508,9 @@ class FrmProFieldsController{
         if(is_array($meta_value))
             $meta_value = implode(', ', $meta_value);
         
-        if($value and !empty($value))
-            echo "<p class='frm_show_it'>". $value ."</p>\n";
+        if ( $value && ! empty($value) ) {
+            echo apply_filters('frm_show_it', "<p class='frm_show_it'>". $value ."</p>\n", $value, array('field' => $data_field, 'value' => $meta_value, 'entry_id' => $entry_id));
+        }
             
         $current_field = (array)$current;
         foreach($current->field_options as $o => $v){
@@ -564,6 +563,7 @@ class FrmProFieldsController{
             $field['options'] = array();
             
             $metas = FrmProEntryMetaHelper::meta_through_join($hide_field, $data_field, $entry_id);
+			$metas = stripslashes_deep($metas);
             if($metas and (!isset($field_data->field_options['data_type']) or !in_array($field_data->field_options['data_type'], array('radio', 'checkbox'))) and
                 (!isset($field_data->field_options['multiple']) or !$field_data->field_options['multiple'] or
                 (isset($field_data->field_options['autocom']) and $field_data->field_options['autocom'])))
@@ -679,7 +679,7 @@ class FrmProFieldsController{
 	    if($date_entries and !empty($date_entries)){
 	        $query = $wpdb->prepare("SELECT meta_value FROM $frmdb->entry_metas it LEFT JOIN $frmdb->fields fi ON (it.field_id = fi.id) WHERE fi.field_key=%s", $time_key);
 	        if(is_numeric($entry_id))
-	            $query = " and it.item_id != ". (int)$entry_id;
+	            $query = $wpdb->prepare(' and it.item_id != %d', $entry_id);
 	        $used_times = $wpdb->get_col("$query and it.item_id in (". implode(',', $date_entries).")");
 	        
 	        if($used_times and !empty($used_times)){

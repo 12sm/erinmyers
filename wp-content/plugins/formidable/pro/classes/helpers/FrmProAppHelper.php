@@ -80,7 +80,12 @@ class FrmProAppHelper{
             $user_ID = get_current_user_id();
             $user_id = $user_ID;
         }else{
-            $user = get_user_by('login', $user_id);
+            if ( is_email($user_id) ) {
+                $user = get_user_by('email', $user_id);
+            } else {
+                $user = get_user_by('login', $user_id);
+            }
+            
             if ( $user ) {
                 $user_id = $user->ID;
             }
@@ -345,9 +350,7 @@ class FrmProAppHelper{
             $where_val = date('Y-m-d', strtotime($where_val));
         else if($where_is == '=' and $where_val != '' and ($where_field->type == 'checkbox' or ($where_field->type == 'select' and isset($where_field->field_options['multiple']) and $where_field->field_options['multiple']) or ($where_field->type == 'data' and $where_field->field_options['data_type'] == 'checkbox' and is_numeric($where_val))))
             $where_is =  'LIKE';
-  
-        $field_options = maybe_unserialize($where_field->field_options);
-
+        
         if($where_field->form_id != $form_id){
             //TODO: get linked entry IDs and get entries where data field value(s) in linked entry IDs
         }
@@ -358,17 +361,19 @@ class FrmProAppHelper{
         if($where_val == '' and $temp_where_is == '=')
             $temp_where_is = '!=';
 
-        
 		$orig_where_val = $where_val;
 		if($where_is == 'LIKE' or $where_is == 'not LIKE'){
              //add extra slashes to match values that are escaped in the database
-            $where_val_esc = "'%". str_replace('\\', '\\\\\\\\\\', esc_sql(like_escape($where_val))) ."%'";
-            $where_val = "'%". esc_sql(like_escape($where_val)) ."%'";
+            $where_val_esc = "'%". esc_sql(FrmAppHelper::esc_like(addslashes($where_val))) ."%'";
+            $where_val = "'%". esc_sql(FrmAppHelper::esc_like($where_val)) ."%'";
         }else if(!strpos($where_is, 'in')){
             $where_val_esc = "'". str_replace('\\', '\\\\\\', esc_sql($where_val)) ."'";
             $where_val = "'". esc_sql($where_val) ."'";
         }
-
+        $where_val = apply_filters('frm_filter_where_val', $where_val, $args);
+        
+        $field_options = maybe_unserialize($where_field->field_options);
+        
         //Filter by DFE text 
 		if ( $where_field->type == 'data' && !is_numeric($where_val) && $orig_where_val != '' && (!isset($field_options['post_field']) || $field_options['post_field'] != 'post_category')){			
 			//Get entry IDs by DFE text
@@ -387,7 +392,7 @@ class FrmProAppHelper{
 			//Change $where_val to linked entry IDs
             if($linked_id){
 				$linked_id = (array)$linked_id;
-                if($where_field->field_options['data_type'] == 'checkbox'){
+                if ( $where_field->field_options['data_type'] == 'checkbox' || ( $where_field->field_options['data_type'] == 'select' && isset($where_field->field_options['multiple']) && $where_field->field_options['multiple'] == 1 ) ) {
 					$where_val = "'%". implode("%' OR meta_value LIKE '%", $linked_id) ."%'";
 					if ($where_is == '!=' or $where_is == 'not LIKE')
 						$temp_where_is = 'LIKE';
@@ -398,13 +403,15 @@ class FrmProAppHelper{
                     $where_val = '('. implode(',', $linked_id) .')';	
                 }
 				unset($where_val_esc);
+				
+				$where_val = apply_filters('frm_filter_dfe_where_val', $where_val, $args);
             }
             unset($linked_id);
         }
     
-        $where_statement = "(meta_value ". ($where_field->type == 'number' ? ' +0 ' : '') . $temp_where_is ." ". $where_val ." ";
+        $where_statement = "(meta_value ". ( in_array($where_field->type, array('number', 'scale')) ? ' +0 ' : '') . $temp_where_is ." ". $where_val ." ";
         if(isset($where_val_esc) and $where_val_esc != $where_val)
-            $where_statement .= " OR meta_value ". ($where_field->type == 'number' ? ' +0 ' : '') . $temp_where_is ." ". $where_val_esc;
+            $where_statement .= " OR meta_value ". ( in_array($where_field->type, array('number', 'scale')) ? ' +0 ' : '') . $temp_where_is ." ". $where_val_esc;
         
         $where_statement .= ") and fi.id=". (int)$where_opt;
         $where_statement = apply_filters('frm_where_filter', $where_statement, $args);
@@ -449,9 +456,9 @@ class FrmProAppHelper{
                         }
                     }else if($field_options['post_field'] == 'post_custom' and $field_options['custom_field'] != ''){
                         //check custom fields
-                        $add_posts = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE post_id in (". implode(',', array_keys($post_ids)) .") AND meta_key='".$field_options['custom_field']."' AND meta_value ". ($where_field->type == 'number' ? ' +0 ' : ''). $where_is." ".$where_val);
+                        $add_posts = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE post_id in (". implode(',', array_keys($post_ids)) .") AND meta_key='".$field_options['custom_field']."' AND meta_value ". ( in_array($where_field->type, array('number', 'scale')) ? ' +0 ' : ''). $where_is." ".$where_val);
                     }else{ //if field is post field
-                        $add_posts = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE ID in (". implode(',', array_keys($post_ids)) .") AND ".$field_options['post_field'] .($where_field->type == 'number' ? ' +0 ' : ' '). $where_is." ".$where_val);
+                        $add_posts = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE ID in (". implode(',', array_keys($post_ids)) .") AND ".$field_options['post_field'] .( in_array($where_field->type, array('number', 'scale')) ? ' +0 ' : ' '). $where_is." ".$where_val);
                     }
                         
                     if($add_posts and !empty($add_posts)){
@@ -546,12 +553,12 @@ class FrmProAppHelper{
                 $errors[] = $media_id;
         }
         
+        remove_filter('upload_dir', array('FrmProAppHelper', 'upload_dir'));
+        
         unset($media_id);
         
         if(empty($media_ids))
             return $errors;
-        
-        remove_filter('upload_dir', array('FrmProAppHelper', 'upload_dir'));
         
         if(count($media_ids) == 1)
             $media_ids = reset($media_ids);
@@ -582,14 +589,6 @@ class FrmProAppHelper{
             $pass .= $all_g[ rand(0, strlen($all_g) - 1) ];
         }
         return $pass;
-    }
-    
-    //check if an array is multidimensional
-    public static function is_multi($a){
-        foreach($a as $v){
-            if(is_array($v)) return true;
-        }
-        return false;
     }
     
     public static function import_csv($path, $form_id, $field_ids, $entry_key=0, $start_row=2, $del=',', $max=250) {

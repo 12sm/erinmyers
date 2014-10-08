@@ -12,22 +12,23 @@ header('Pragma: no-cache');
 //echo chr(239) . chr(187) . chr(191);
 
 foreach ($form_cols as $col){
-    if(isset($col->field_options['separate_value']) and $col->field_options['separate_value'] and !in_array($col->type, array('user_id', 'file', 'data', 'date')))
-        echo '"'. str_replace('"', '""', FrmProEntriesHelper::encode_value(strip_tags($col->name .' '. __('(label)', 'formidable')), $charset, $to_encoding)) .'",';
+    if ( isset($col->field_options['separate_value']) && $col->field_options['separate_value'] && !in_array($col->type, array('user_id', 'file', 'data', 'date')) ) {
+        echo '"'. str_replace('"', '""', FrmProEntriesHelper::encode_value(strip_tags($col->name .' '. __('(label)', 'formidable')), $charset, $to_encoding)) .'"'. $col_sep;
+    }
     
-    echo '"'. FrmProEntriesHelper::encode_value(strip_tags($col->name), $charset, $to_encoding) .'",';
+    echo '"'. FrmProEntriesHelper::encode_value(strip_tags($col->name), $charset, $to_encoding) .'"'. $col_sep;
 }
 
 if($comment_count){
     for ($i=0; $i<$comment_count; $i++){
-        echo '"'. FrmProEntriesHelper::encode_value(__('Comment', 'formidable'), $charset, $to_encoding) .'",';
-        echo '"'. FrmProEntriesHelper::encode_value(__('Comment User', 'formidable'), $charset, $to_encoding) .'",';
-        echo '"'. FrmProEntriesHelper::encode_value(__('Comment Date', 'formidable'), $charset, $to_encoding) .'",';
+        echo '"'. FrmProEntriesHelper::encode_value(__('Comment', 'formidable'), $charset, $to_encoding) .'"'. $col_sep;
+        echo '"'. FrmProEntriesHelper::encode_value(__('Comment User', 'formidable'), $charset, $to_encoding) .'"'. $col_sep;
+        echo '"'. FrmProEntriesHelper::encode_value(__('Comment Date', 'formidable'), $charset, $to_encoding) .'"'. $col_sep;
     }
     unset($i);
 }
    
-echo '"'. __('Timestamp', 'formidable') .'","'. __('Last Updated', 'formidable') .'","'. __('Created By', 'formidable') .'","'. __('Updated By', 'formidable') .'","'. __('Draft', 'formidable') .'","IP","ID","Key"'."\n";
+echo '"'. __('Timestamp', 'formidable') .'"'. $col_sep .'"'. __('Last Updated', 'formidable') .'"'. $col_sep .'"'. __('Created By', 'formidable') .'"'. $col_sep .'"'. __('Updated By', 'formidable') .'"'. $col_sep .'"'. __('Draft', 'formidable') .'"'. $col_sep .'"IP"'. $col_sep .'"ID"'. $col_sep .'"Key"'."\n";
 
 // fetch 20 posts at a time rather than loading the entire table into memory
 while ( $next_set = array_splice( $entry_ids, 0, 20 ) ) {
@@ -45,7 +46,8 @@ foreach($entries as $entry){
                 array(
                     'truncate' => (($col->field_options['post_field'] == 'post_category') ? true : false), 
                     'form_id' => $entry->form_id, 'field' => $col, 'type' => $col->type, 
-                    'exclude_cat' => (isset($col->field_options['exclude_cat']) ? $col->field_options['exclude_cat'] : 0)
+                    'exclude_cat' => (isset($col->field_options['exclude_cat']) ? $col->field_options['exclude_cat'] : 0),
+                    'sep' => $sep,
                 ));
             }
         }
@@ -54,15 +56,20 @@ foreach($entries as $entry){
             $field_value = FrmProFieldsHelper::get_export_val($field_value, $col);
         }else{
             if(isset($col->field_options['separate_value']) and $col->field_options['separate_value']){
-                $sep_value = FrmProEntryMetaHelper::display_value($field_value, $col, array('type' => $col->type, 'post_id' => $entry->post_id, 'show_icon' => false, 'entry_id' => $entry->id));
-                if(is_array($sep_value))
-                    $sep_value = implode(', ', $sep_value);
+                $sep_value = FrmProEntryMetaHelper::display_value($field_value, $col, array(
+                    'type' => $col->type, 'post_id' => $entry->post_id, 'show_icon' => false,
+                    'entry_id' => $entry->id, 'sep' => $sep,
+                ));
+                if ( is_array($sep_value) ) {
+                    $sep_value = implode($sep, $sep_value);
+                }
+                
                 $sep_value = FrmProEntriesHelper::encode_value($sep_value, $charset, $to_encoding);
                 $sep_value = str_replace('"', '""', $sep_value); //escape for CSV files.
                 if ( $line_break != 'return' ) {
                     $sep_value = str_replace(array("\r\n", "\r", "\n"), $line_break, $sep_value);
                 }
-                echo "\"$sep_value\",";
+                echo '"'. $sep_value .'"'. $col_sep;;
                 unset($sep_value);
             }
             
@@ -70,7 +77,7 @@ foreach($entries as $entry){
             $checked_values = apply_filters('frm_csv_value', $checked_values, array('field' => $col));
             
             if (is_array($checked_values)){
-                $field_value = implode(', ', $checked_values);
+                $field_value = implode($sep, $checked_values);
             }else{
                 $field_value = $checked_values;
             }
@@ -82,7 +89,7 @@ foreach($entries as $entry){
             $field_value = str_replace(array("\r\n", "\r", "\n"), $line_break, $field_value);
         }
         
-        echo "\"$field_value\",";
+        echo '"'. $field_value .'"'. $col_sep;
             
         unset($col);
         unset($field_value);
@@ -98,41 +105,41 @@ foreach($entries as $entry){
             
             $place_holder--;
             $co = FrmProEntriesHelper::encode_value($c['comment'], $charset, $to_encoding);
-            echo "\"$co\",";
+            echo '"'. $co .'"'. $col_sep;
             unset($co);
             
             $v = FrmProEntriesHelper::encode_value(FrmProFieldsHelper::get_display_name($c['user_id'], 'user_login'), $charset, $to_encoding);
             unset($c);
-            echo "\"$v\",";
+            echo '"'. $v .'"'. $col_sep;
             
             $v = FrmProEntriesHelper::encode_value(FrmProAppHelper::get_formatted_time($comment->created_at, $wp_date_format, ' '), $charset, $to_encoding);
-            echo "\"$v\",";
+            echo '"'. $v .'"'. $col_sep;
             unset($v);
         }
     }
     
-    if($place_holder){
-        for ($i=0; $i<$place_holder; $i++){
-            echo '"","","",';
+    if ( $place_holder ) {
+        for ( $i=0; $i<$place_holder; $i++ ) {
+            echo '""'. $col_sep .'""'. $col_sep .'""'. $col_sep;
         }
         unset($i);
     }
     unset($place_holder);
     
     $formatted_date = FrmProAppHelper::get_formatted_time($entry->created_at, $wp_date_format, ' ');
-    echo "\"{$formatted_date}\",";
+    echo '"'. $formatted_date .'"'. $col_sep;
     
     $formatted_date = FrmProAppHelper::get_formatted_time($entry->updated_at, $wp_date_format, ' ');
-    echo "\"{$formatted_date}\",";
+    echo '"'. $formatted_date .'"'. $col_sep;
     unset($formatted_date);
     
-    echo '"'. FrmProEntriesHelper::encode_value(FrmProFieldsHelper::get_display_name($entry->user_id, 'user_login'), $charset, $to_encoding) .'",';
-    echo '"'. FrmProEntriesHelper::encode_value(FrmProFieldsHelper::get_display_name($entry->updated_by, 'user_login'), $charset, $to_encoding) .'",';
+    echo '"'. FrmProEntriesHelper::encode_value(FrmProFieldsHelper::get_display_name($entry->user_id, 'user_login'), $charset, $to_encoding) .'"'. $col_sep;
+    echo '"'. FrmProEntriesHelper::encode_value(FrmProFieldsHelper::get_display_name($entry->updated_by, 'user_login'), $charset, $to_encoding) .'"'. $col_sep;
     
-    echo '"'. ( $entry->is_draft ? '1' : '0' ) .'",';
-    echo "\"{$entry->ip}\",";
-    echo "\"{$entry->id}\",";
-    echo "\"{$entry->item_key}\"\n";
+    echo '"'. ( $entry->is_draft ? '1' : '0' ) .'"'. $col_sep;
+    echo '"'. $entry->ip .'"'. $col_sep;
+    echo '"'. $entry->id .'"'. $col_sep;
+    echo '"'. $entry->item_key .'"'. "\n";
     unset($entry);
     
 }

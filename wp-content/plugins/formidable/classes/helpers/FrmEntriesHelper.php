@@ -35,8 +35,15 @@ class FrmEntriesHelper{
             }
             
             $is_default = ($new_value == $default) ? true : false;
-                
-            $field->default_value = apply_filters('frm_get_default_value', $field->default_value, $field);
+              
+    		//If checkbox, multi-select dropdown, or checkbox data from entries field, set return array to true
+    		if ( $field && ( ( $field->type == 'data' && $field->field_options['data_type'] == 'checkbox' ) || $field->type == 'checkbox' || ( $field->type == 'select' && isset($field->field_options['multiple']) && $field->field_options['multiple'] == 1 ) ) ) {
+                $return_array = true;
+    		} else {
+    		    $return_array = false;
+    		}
+            
+            $field->default_value = apply_filters('frm_get_default_value', $field->default_value, $field, true, $return_array);
                 
             if ( !is_array($new_value) ) {
                 if ( $is_default ) {
@@ -140,29 +147,62 @@ class FrmEntriesHelper{
         $values['is_draft'] = $record->is_draft;
         return apply_filters('frm_setup_edit_entry_vars', $values, $record);
     }
+    
+    public static function replace_default_message($message, $atts) {
+        if ( strpos($message, '[default-message') === false && 
+            strpos($message, '[default_message') === false && 
+            !empty($message) ) {
+            return $message;
+        }
+        
+        if ( empty($message) ) {
+            $message = '[default-message]';
+        }
+        
+        preg_match_all("/\[(default-message|default_message)\b(.*?)(?:(\/))?\]/s", $message, $shortcodes, PREG_PATTERN_ORDER);
+        
+        foreach ( $shortcodes[0] as $short_key => $tag ) {
+            $add_atts = shortcode_parse_atts( $shortcodes[2][$short_key] );
+            if ( $add_atts ){
+                $this_atts = array_merge($atts, $add_atts);
+            } else {
+                $this_atts = $atts;
+            }
+            
+            $default = FrmEntriesController::show_entry_shortcode($this_atts);
+            
+            // Add the default message
+            $message = str_replace($shortcodes[0][$short_key], $default, $message);
+        }
+
+        return $message;
+    }
+    
+
 
     public static function entries_dropdown( $form_id, $field_name, $field_value='', $blank=true, $blank_label='', $onchange=false ){
-        global $wpdb, $frmdb;
-
-        $entries = $wpdb->get_results( $wpdb->prepare(
-            "SELECT id, item_key, name FROM {$wpdb->prefix}frm_items WHERE form_id=%d ORDER BY name ASC LIMIT 999",
-            $form_id
-        ) );
-        ?>
-        <select name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" <?php if ($onchange) echo 'onchange="'. $onchange .'"'; ?>>
-            <?php if ($blank){ ?>
-            <option value=""><?php echo $blank_label; ?></option>
-            <?php } ?>
-            <?php foreach($entries as $entry){ ?>
-                <option value="<?php echo $entry->id; ?>" <?php selected($field_value, $entry->id); ?>><?php echo FrmAppHelper::truncate((!empty($entry->name)) ? stripslashes($entry->name) : $entry->item_key, 40); ?></option>
-            <?php 
-                unset($entry);
-            } ?>
-        </select>
-        <?php
+        _deprecated_function( __FUNCTION__, '1.07.09');
     }
     
     public static function enqueue_scripts($params){
         do_action('frm_enqueue_form_scripts', $params);
+    }
+    
+    // Add submitted values to a string for spam checking
+    public static function entry_array_to_string($values) {
+        $content = '';
+		foreach ( $values['item_meta'] as $val ) {
+			if ( $content != '' ) {
+				$content .= "\n\n";
+			}
+			
+			if ( is_array($val) ) {
+			    $val = implode(',', $val);
+			}
+			
+			$content .= $val;
+		}
+		
+		return $content;
     }
 }

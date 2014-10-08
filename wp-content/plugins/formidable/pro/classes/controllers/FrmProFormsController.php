@@ -113,7 +113,7 @@ class FrmProFormsController{
         $values = array();
         
         if(isset($_POST['form_id']))
-            $values['fields'] = $frm_field->getAll("fi.form_id='$_POST[form_id]' and fi.type not in ('divider', 'html', 'break', 'captcha')", ' ORDER BY field_order');
+            $values['fields'] = $frm_field->getAll("fi.form_id='". (int) $_POST['form_id'] ."' and fi.type not in ('divider', 'html', 'break', 'captcha')", ' ORDER BY field_order');
         $echo = false;
         
         $limit = (int) apply_filters( 'postmeta_form_limit', 40 );
@@ -177,7 +177,8 @@ class FrmProFormsController{
             'post_meta key=whatever' => __('Post Meta', 'formidable'),
             'ip' => __('IP Address', 'formidable'), 
             'auto_id start=1' => __('Increment', 'formidable'), 
-            'get param=whatever' => array('label' => __('GET/POST', 'formidable'), 'title' => __('A variable from the URL or value posted from previous page.', 'formidable') .' '. __('Replace \'whatever\' with the parameter name. In url.com?product=form, the variable is \'product\'. You would use [get param=product] in your field.', 'formidable'))
+            'get param=whatever' => array('label' => __('GET/POST', 'formidable'), 'title' => __('A variable from the URL or value posted from previous page.', 'formidable') .' '. __('Replace \'whatever\' with the parameter name. In url.com?product=form, the variable is \'product\'. You would use [get param=product] in your field.', 'formidable')),
+            'server param=whatever' => array('label' => __('SERVER', 'formidable'), 'title' => __('A variable from the PHP SERVER array.', 'formidable') .' '. __('Replace \'whatever\' with the parameter name. To get the url of the current page, use [server param="REQUEST_URI"] in your field.', 'formidable')),
         );
         include(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-forms/instructions.php');
     }
@@ -212,7 +213,7 @@ class FrmProFormsController{
     }
     
     public static function formidable_shortcode_atts($atts, $all_atts){
-        global $frm_vars, $frmdb;
+        global $frm_vars;
         $frm_vars['readonly'] = $atts['readonly'];
         $frm_vars['editing_entry'] = false;
         
@@ -226,13 +227,13 @@ class FrmProFormsController{
             if(!is_array($atts['exclude_fields']))
                 $atts['exclude_fields'] = explode(',', $atts['exclude_fields']);
             
-            $atts['exclude_fields'] = array_filter( $atts['exclude_fields'], 'sanitize_key' );
+            $atts['exclude_fields'] = implode("','", array_filter( $atts['exclude_fields'], 'esc_sql' ));
             
-            $frm_vars['show_fields'] = $wpdb->get_col("SELECT id FROM $frmdb->fields WHERE form_id=". (int)$atts['id'] ." AND id NOT in ('". implode("','", $atts['exclude_fields']) ."') AND field_key NOT in ('". implode("','", $atts['exclude_fields']) ."')");
+            $frm_vars['show_fields'] = $wpdb->get_col("SELECT id FROM {$wpdb->prefix}frm_fields WHERE form_id=". (int) $atts['id'] ." AND id NOT in ('". $atts['exclude_fields'] ."') AND field_key NOT in ('". $atts['exclude_fields'] ."')");
         }
             
         if($atts['entry_id'] == 'last'){
-            global $frm_entry_meta;
+            global $frm_entry_meta, $frmdb;
             $user_ID = get_current_user_id();
             if($user_ID){
                 $where_meta = array('form_id' => $atts['id'], 'user_id' => $user_ID);
@@ -318,19 +319,21 @@ class FrmProFormsController{
                 case 'back_label':
                     $replace_with = __('Previous', 'formidable');
                 break;
-                case 'back_hook':
-                    $classes = apply_filters('frm_back_button_class', array(), $form);
-                    if(!empty($classes))
-                        $replace_with = ' class="'. implode(' ', $classes) .'" ';
-                    
-                    $replace_with .= apply_filters('frm_back_button_action', '', $form);
+                case 'back_hook':                    
+                    $replace_with = apply_filters('frm_back_button_action', '', $form);
                 break;
                 case 'back_button':
                     global $frm_vars;
-                    if(!$frm_vars['prev_page'] or !is_array($frm_vars['prev_page']) or !isset($frm_vars['prev_page'][$form->id]) or empty($frm_vars['prev_page'][$form->id]))
+                    if ( !$frm_vars['prev_page'] || !is_array($frm_vars['prev_page']) || !isset($frm_vars['prev_page'][$form->id]) || empty($frm_vars['prev_page'][$form->id]) ) {
                         unset($replace_with);
-                    else
+                    } else {
+                        $classes = apply_filters('frm_back_button_class', array(), $form);
+                        if ( !empty($classes) ) {
+                            $html = str_replace('class="frm_prev_page', 'class="frm_prev_page '. implode(' ', $classes), $html);
+                        }
+                        
                         $html = str_replace('[/if back_button]', '', $html);
+                    }
                 break;
                 case 'draft_label':
                     $replace_with = __('Save Draft', 'formidable');

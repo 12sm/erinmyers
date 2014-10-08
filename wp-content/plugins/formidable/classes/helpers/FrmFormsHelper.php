@@ -12,7 +12,11 @@ class FrmFormsHelper{
         return $target_url;
     }
     
-    public static function get_template_dropdown($templates){ ?>
+    public static function get_template_dropdown($templates) {
+        if ( ! current_user_can('frm_edit_forms') ) {
+            return;
+        }
+        ?>
         <select id="select_form" name="select_form" onChange="frmAddNewForm(this.value,'duplicate')">
             <option value="">&mdash; <?php _e('Create Form from Template', 'formidable') ?> &mdash;</option>
             <?php foreach ($templates as $temp){ ?>
@@ -247,7 +251,7 @@ BEFORE_HTML;
                 $replace_with = $_GET['entry'];
             }
                 
-            if (($show == true || $show == 'true') && $replace_with != '' ){
+            if ( FrmAppHelper::is_true($show) && $replace_with != '' ) {
                 $html = str_replace('[if '.$code.']', '', $html); 
         	    $html = str_replace('[/if '.$code.']', '', $html);
             }else{
@@ -276,6 +280,17 @@ BEFORE_HTML;
             $html = preg_replace('/(\[if\s+save_draft\])(.*?)(\[\/if\s+save_draft\])/mis', '', $html);
         
         return $html;
+    }
+    
+    public static function form_loaded($form) {
+        global $frm_vars;
+        $small_form = new stdClass();
+        foreach ( array('id', 'form_key', 'name' ) as $var ) {
+            $small_form->{$var} = $form->{$var};
+            unset($var);
+        }
+        
+        $frm_vars['forms_loaded'][] = $small_form;
     }
 
 }

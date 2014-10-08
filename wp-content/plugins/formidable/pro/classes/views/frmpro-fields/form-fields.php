@@ -96,17 +96,18 @@ wp_editor(str_replace('&quot;', '"', $field['value']), 'field_'. $field['field_k
         $e_args = array('media_buttons' => false, 'textarea_name' => $field_name);
         if($field['max'])
             $e_args['textarea_rows'] = $field['max'];
+        
+        $e_args = apply_filters('frm_rte_options', $e_args, $field);
+        
         if($field['size']){ ?>
 <style type="text/css">#wp-field_<?php echo $field['field_key'] ?>-wrap{width:<?php echo (int)((int)$field['size'] * 8.6) ?>px;}</style><?php
         }
         
         wp_editor(str_replace('&quot;', '"', $field['value']), 'field_'. $field['field_key'] . ((isset($frm_vars['ajax_edit']) and $frm_vars['ajax_edit']) ? $frm_vars['ajax_edit'] : '' ),  $e_args);
-        if(is_admin() and defined('DOING_AJAX')){
-            if(!isset($frm_vars['tinymce_loaded']) or !$frm_tinymce_loaded){
-                add_action( 'wp_print_footer_scripts', '_WP_Editors::editor_js', 50 );
-			    add_action( 'wp_footer', '_WP_Editors::enqueue_scripts', 1 );
-			    $frm_tinymce_loaded = true;
-			}
+        if ( defined('DOING_AJAX') && (!isset($frm_vars['tinymce_loaded']) || !$frm_vars['tinymce_loaded'])) {
+            add_action( 'wp_print_footer_scripts', '_WP_Editors::editor_js', 50 );
+			add_action( 'wp_footer', '_WP_Editors::enqueue_scripts', 1 );
+			$frm_vars['tinymce_loaded'] = true;
         }
         unset($e_args);
     }else{ ?>
@@ -131,16 +132,27 @@ if(!FrmProFieldsHelper::mobile_check()){
 <?php
         }
     }else if(isset($field['multiple']) and $field['multiple']){
-        foreach((array)maybe_unserialize($field['value']) as $media_id){ 
+		$media_ids = maybe_unserialize($field['value']);
+		if ( !is_array($media_ids) && strpos($media_ids, ',') ) {
+			$media_ids = explode(',', $media_ids);
+		}
+		
+		foreach((array)$media_ids as $media_id){
+			$media_id = trim($media_id);
             if(!is_numeric($media_id))
                 continue;
+            
+            $media_id = (int) $media_id;
 ?>
 <div id="frm_uploaded_<?php echo $media_id ?>" class="frm_uploaded_files">
 <input type="hidden" name="<?php echo $field_name ?>[]" value="<?php echo esc_attr($media_id) ?>" />
 <div class="frm_file_icon"><?php echo FrmProFieldsHelper::get_file_icon($media_id); ?></div>
 <a class="frm_remove_link"><?php _e('Remove', 'formidable') ?></a>
 </div>
-<?php   } 
+<?php
+		unset($media_id);
+	}
+unset($media_ids);
 if(empty($field_value)){ ?>
 <input type="hidden" name="<?php echo $field_name ?>[]" value="" />
 <?php } ?>

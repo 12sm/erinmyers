@@ -61,8 +61,6 @@ class FrmProDisplay{
                 $new_values['frm_'. $field] = $values[$field];
         }
             
-        $new_values['frm_entry_id'] = isset($values['entry_id']) ? (int)$values['entry_id'] : 0;
-        
         if (isset($values['options'])){
             $new_values['frm_options'] = array();
             foreach ($values['options'] as $key => $value)
@@ -141,7 +139,7 @@ class FrmProDisplay{
             return false;
             
         if($post and $get_meta){
-            $check_post = (isset($atts['check_post'])) ? $atts['check_post'] : true;
+            $check_post = (isset($atts['check_post'])) ? $atts['check_post'] : false;
             $post = FrmProDisplaysHelper::setup_edit_vars($post, $check_post);
         }
         
