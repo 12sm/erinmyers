@@ -69,22 +69,12 @@ vc_include_template('editors/partials/frontend_controls.tpl.php');
 </script>
 <div style="height: 1px; visibility: hidden; overflow: hidden;">
 <?php
-wp_editor( $post->post_content, 'content', array(
-    'dfw' => true,
-    'tabfocus_elements' => 'insert-media-button,save-post',
-    'editor_height' => 360
-) );
-	// wp_enqueue_script( 'post' );
-wp_nonce_field($nonce_action); ?>
-    <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-    <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ) ?>" />
-	<input type="hidden" id="originalaction" name="originalaction" value="<?php echo esc_attr( $form_action ) ?>"/>
-	<input type="hidden" id="post_author" name="post_author"
-		   value="<?php echo esc_attr( $editor->post->post_author ); ?>"/>
-    <input type="hidden" id="referredby" name="referredby" value="<?php echo esc_url(wp_get_referer()); ?>" />
+	// fix missed meta boxes see: #1252
+	require_once ABSPATH.'wp-admin/edit-form-advanced.php';
+	// Fix: WP 4.0
+	wp_dequeue_script('editor-expand');
+?>
 <?php
-    if ( wp_is_mobile() )
-    wp_enqueue_script( 'jquery-touch-punch' );
 	do_action('vc_frontend_editor_render_template');
 ?>
 </div>

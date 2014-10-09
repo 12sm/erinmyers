@@ -9,8 +9,8 @@
 			</div>
 			<div class="modal-body vc_properties-list wpb-edit-form"></div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary vc_save">Save changes</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e( 'Close', 'js_composer' ); ?></button>
+				<button type="button" class="btn btn-primary vc_save"><?php _e( 'Save changes', 'js_composer' ); ?></button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

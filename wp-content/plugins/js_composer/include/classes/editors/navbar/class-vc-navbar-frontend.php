@@ -18,7 +18,7 @@ Class Vc_Navbar_Frontend extends Vc_Navbar {
 	public function getControlGuidesSwitch() {
 		return '<li class="vc_pull-right">'
 		  .'<button id="vc_guides-toggle-button" class="vc_btn vc_btn-primary vc_btn-sm vc_navbar-btn"'
-		  .' title="'.esc_attr( "Toggle editor's guides", 'js_composer' ).'">'
+		  .' title="'.__( "Toggle editor's guides", 'js_composer' ).'">'
 		  .__( 'Guides ON', 'js_composer' )
 		  .'</button>'
 		  .'</li>';

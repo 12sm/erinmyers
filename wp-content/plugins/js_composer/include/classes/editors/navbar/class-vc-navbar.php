@@ -57,14 +57,14 @@ Class Vc_Navbar implements Vc_Render {
 		));
 	}
 	public function getLogo() {
-		$output = '<a id="vc_logo" class="vc_navbar-brand" title="'.esc_attr('Visual Composer', 'js_composer')
+		$output = '<a id="vc_logo" class="vc_navbar-brand" title="'.__('Visual Composer', 'js_composer')
 		  .'" href="'.esc_attr($this->brand_url).'" target="_blank">'
 		  .__('Visual Composer', 'js_composer').'</a>';
 		return apply_filters('vc_nav_front_logo', $output);
 	}
 	public function getControlCustomCss() {
 		return '<li class="vc_pull-right"><a id="vc_post-settings-button" class="vc_icon-btn vc_post-settings" title="'
-		  .esc_attr( 'Page settings', 'js_composer' ).'">'
+		  .__( 'Page settings', 'js_composer' ).'">'
 		  .'<span id="vc_post-css-badge" class="vc_badge vc_badge-custom-css" style="display: none;">'.__('CSS', 'js_composer').'</span></a>'
 		  .'</li>';
 	}

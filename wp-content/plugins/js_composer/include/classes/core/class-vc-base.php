@@ -218,6 +218,8 @@ class Vc_Base {
 	 */
 	public function addMetaData() {
 		echo '<meta name="generator" content="Powered by Visual Composer - drag and drop page builder for WordPress."/>' . "\n";
+		// Add IE8 compatibility from WPExplorer: https://github.com/wpexplorer/visual-composer-ie8
+		echo '<!--[if IE 8]><link rel="stylesheet" type="text/css" href="'. vc_asset_url( 'css/vc-ie8.css' ) .'" media="screen"><![endif]-->';
 	}
 
 	/**

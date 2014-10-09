@@ -42,7 +42,7 @@ class Vc_Google_Fonts {
 	 * @return array List of available fonts as array of objects. {"font_family":"Abril Fatface","font_styles":"regular","font_types":"400 regular:400:normal"}
 	 */
 	public function _vc_google_fonts_get_fonts() {
-		return apply_filters( 'vc_google_fonts_get_fonts_filter', json_decode( file_get_contents( vc_asset_url( 'js/params/google_fonts.json' ) ) ) );
+		return apply_filters( 'vc_google_fonts_get_fonts_filter', json_decode( file_get_contents( vc_path_dir( 'ASSETS_DIR', 'js/params/google_fonts.json' ) ) ) );
 	}
 
 	public function _vc_google_fonts_parse_attributes( $attr, $value ) {

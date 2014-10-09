@@ -549,6 +549,8 @@
           }
         });
       }
+      // TODO: move with new version of params types.
+      jQuery( 'body' ).off( 'click.wpcolorpicker' );
     }
   });
   /**
@@ -620,7 +622,8 @@
      */
     setAlertOnDataChange: function() {
       if(vc.saved_custom_css !== this.editor.getValue() && window.tinymce) {
-        window.tinymce.get('content').isNotDirty = false;
+	    window.switchEditors.go('content', 'tmce');
+        window.setTimeout(function(){window.tinymce.get('content').isNotDirty = false;},1000);
       }
     },
     save: function() {

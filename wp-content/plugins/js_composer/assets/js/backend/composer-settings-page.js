@@ -159,12 +159,13 @@ jQuery(document).ready(function ($) {
       });
   });
     $css_editor = $('#wpb_csseditor');
+	$css_editor_input = $("textarea.custom_css.wpb_csseditor");
     if( $css_editor.length ) {
         window.css_editor = new Vc_postSettingsEditor();
-        window.css_editor.setEditor($css_editor.html());
+        window.css_editor.setEditor($css_editor_input.val());
 
         window.css_editor.getEditor().on("change", function () {
-            $("textarea.custom_css.wpb_csseditor").val(window.css_editor.getValue());
+	        $css_editor_input.val(window.css_editor.getValue());
         });
     }
 });

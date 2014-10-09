@@ -683,8 +683,8 @@
             }
             if (view.model.get('cloned') === true) {
                 var cloned_from = view.model.get('cloned_from'),
-                    $after_tab = $('[href=#tab-' + cloned_from.params.tab_id + ']', this.$content).parent(),
-                    $new_tab = $("<li><a href='#tab-" + params.tab_id + "'>" + params.title + "</a></li>").insertAfter($after_tab);
+                    $tab_controls = $('.tabs_controls > .add_tab_block', this.$content),
+	                $new_tab = $("<li><a href='#tab-" + params.tab_id + "'>" + params.title + "</a></li>").insertBefore($tab_controls);
                 this.$tabs.tabs('refresh');
                 this.$tabs.tabs("option", 'active', $new_tab.index());
             } else {

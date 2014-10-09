@@ -7,7 +7,7 @@
 		<h3 class="vc_panel-title"><?php _e('Edit elements', 'js_composer') ?></h3>
 	</div>
 	<div class="vc_panel-body vc_properties-list">
-		Select content element to edit properties.
+		<?php _e( 'Select content element to edit properties.', 'js_composer' ) ?>
 	</div>
 	<div class="vc_panel-footer">
 		<button type="button" class="vc_btn vc_panel-btn-close"

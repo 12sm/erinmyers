@@ -58,6 +58,7 @@
      */
     setAlertOnDataChange: function() {
       if(vc.saved_custom_css !== this.$editor.getValue() && window.tinymce) {
+		window.switchEditors.go('content', 'tmce');
         window.tinymce.get('content').isNotDirty = false;
       }
     }

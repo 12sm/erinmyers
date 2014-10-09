@@ -276,15 +276,13 @@
     },
     save: function(status) {
       var string = this.getContent(),
-        data = {
-          action: $('#hiddenaction').val(),
-          originalaction: $('#originalaction').val(),
-          _wpnonce: $('#_wpnonce').val(),
-          user_ID: $('#user-id').val(),
-          content: string,
-          post_ID: vc.post_id,
-          vc_post_custom_css: vc.$custom_css.val()
-        };
+        post_data = $('#post').serializeArray();
+	    var data = {};
+	    for(var x in post_data) {
+		    data[post_data[x].name] = post_data[x].value;
+	    }
+	    data['vc_post_custom_css'] = vc.$custom_css.val();
+	    data['content'] = string;
       if(status) {
         data.post_status = status;
         $('.vc_button_save_draft').hide(100) && $('#vc_button-update').text(window.i18nLocale.update_all);

@@ -427,6 +427,10 @@
       this.changed();
       return true;
     },
+	cloneTabAfter: function(model) {
+		this.$tabs.find('> .wpb_wrapper > .wpb_tabs_nav > div').remove();
+		this.buildTabs(model);
+	},
     updateIfExistTab: function(model) {
       var $tab = this.tabsControls().find('[data-model-id=' + model.get('id') + ']');
       if($tab.length) {
@@ -545,7 +549,7 @@
      },
     removeView: function(model) {
       window.InlineShortcodeView_vc_tab.__super__.removeView.call(this, model);
-      if(this.parent_view && this.parent_view.addTab) {
+      if(this.parent_view && this.parent_view.removeTab) {
         this.parent_view.removeTab(model);
       }
     },
@@ -555,8 +559,19 @@
       var clone = this.model.clone(),
           params = clone.get('params'),
           builder = new vc.ShortcodesBuilder();
-      vc.CloneModel(builder, this.model, this.model.get('parent_id'));
-      builder.render();
+      var newmodel = vc.CloneModel(builder, this.model, this.model.get('parent_id'));
+	  var active_model = this.parent_view.active_model_id;
+	  if(this.parent_view.addTab) {
+		  this.parent_view.addTab(newmodel);
+	  }
+	  var that = this;
+	  builder.render(function(){
+		  if(that.parent_view.cloneTabAfter) {
+			  that.parent_view.cloneTabAfter(newmodel);
+		  }
+	  });
+
+
     },
     rowsColumnsConverted: function() {
       _.each(vc.shortcodes.where({parent_id: this.model.get('id')}), function(model){
@@ -736,13 +751,11 @@
   });
   window.InlineShortcodeView_vc_raw_js = window.InlineShortcodeView.extend({
     render: function() {
-      window.InlineShortcodeView_vc_flickr.__super__.render.call(this);
+      window.InlineShortcodeView_vc_raw_js.__super__.render.call(this);
       var script = this.$el.find('.vc_js_inline_holder').val();
       this.$el.find('.wpb_wrapper').html(script);
       return this;
     }
-  });
-  window.InlineShortcodeView_vc_raw_js = window.InlineShortcodeView.extend({
   });
     vc.addTemplateFilter(function (string) {
     var random_id = VCS4() + '-' + VCS4();

@@ -1,3 +1,13 @@
+10.09.2014 - ver 4.3.4
+   - WP 4.0 improvements
+   - Cloning row with tabs fixed
+   - Cloning single tab in frontend editor fixed
+   - Untranslated strings found and now outputed with __() and _e()
+   - Custom CSS in Settings page converted > to special char fixed
+   - IE8 compatibility improved. vc-ie8.css added. Thanks to AJ Clarke
+   - Using front-end editor turns off the comments fixed
+   - Persian translation added. Thanks to: Muhammad Ali - http://bestit.org
+
 19.08.2014 - ver 4.3.3
    - Edit elements in Accordion fixed
    - Design Options: border params are not saved if you don't enter all 4 border widths

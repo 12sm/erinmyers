@@ -1,8 +1,7 @@
 /*!
- * Visual Composer v4.3.0 (http://vc.wpbakery.com)
+ * Visual Composer v4.3.4 (http://vc.wpbakery.com)
  * Copyright 2011-2014 Michael M - WPBakery.com
  */
-
 .thumbnail > img,
 .thumbnail a > img,
 .carousel-inner > .item > img,
@@ -2708,6 +2707,9 @@ a.list-group-item.active > .vc_badge,
 .vc_dropdown-menu {
   background-color: #000000;
 }
+.vc_navbar-header {
+  float: left;
+}
 @media (min-width: 768px) {
   .vc_navbar-header {
     float: left;
@@ -2978,6 +2980,7 @@ a.list-group-item.active > .vc_badge,
 .wpb-elements-list-modal .wpb-content-layouts li .vc_el-container {
   display: table;
   height: 69px;
+  width: 100%;
 }
 .wpb-elements-list-modal .wpb-content-layouts a {
   outline: none;
@@ -4230,6 +4233,9 @@ select.btn-danger {
 .vc_editor #wpcontent,
 .vc_editor #wpfooter {
   margin-left: 0 !important;
+}
+.vc_editor #wpcontent {
+  padding-left: 0 !important;
 }
 .vc_editor #adminmenuback,
 .vc_editor #adminmenuwrap {

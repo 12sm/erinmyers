@@ -580,8 +580,10 @@ var vc_iframe = {
     });
     */
   };
-  $(window).load(function(){
-    if(!parent.vc.loaded) parent.vc.build();
+  $(window).ready(function(){
+    if(!parent.vc.loaded) {
+	    window.setTimeout(function() {parent.vc.build()},10);
+    }
   });
   // vc_iframe.setSortable(window.parent.vc.app);
 })(window.jQuery);
