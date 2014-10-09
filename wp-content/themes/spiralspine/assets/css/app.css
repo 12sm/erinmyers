@@ -229,15 +229,6 @@ h1.video-title{
 .hentry .entry-content { }
 .hentry footer { }
 
-/* Home Blog Previews */
-
-.blog-container {
-position: relative;
-max-height: 500px;
-min-height: 250px;
-overflow: hidden;
-}
-
 /* ==========================================================================
    Footer
    ========================================================================== */
