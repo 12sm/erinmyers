@@ -77,6 +77,7 @@ h3{
 
 .container{
    background: #fff;
+   max-width: 100%;
 }
 .container .container {
 width: initial;
@@ -196,9 +197,7 @@ margin-bottom:15px;
 .blog-roll-title, .blog-roll-meta, .blog-roll-body .btn{
    text-align: left;
 }
-.page-header {
-display: none;
-}
+
 .quote-block {
 background: #5F8993;
 padding: 15px 15px;
@@ -372,6 +371,14 @@ padding: 25px 0px;
 .wrap.container-fluid {
 
 }
+
+.page-header {
+padding-bottom: 9px;
+margin: 0px 0px 15px;
+border-bottom: 1px solid #eee;
+}
+
+.page-header h1 {margin: 0px;}
 
 /* ==========================================================================
    Primary Content
