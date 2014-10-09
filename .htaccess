@@ -438,8 +438,7 @@ AddDefaultCharset utf-8
     RewriteRule .* "/wp-content/cache/page_enhanced/%{HTTP_HOST}/%{REQUEST_URI}/_index%{ENV:W3TC_SSL}.html%{ENV:W3TC_ENC}" [L]
 </IfModule>
 # END W3TC Page Cache core
-
-
+	
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
