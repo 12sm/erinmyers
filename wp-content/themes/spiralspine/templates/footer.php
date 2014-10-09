@@ -56,8 +56,8 @@
        wp_nav_menu(array('theme_location' => 'social_navigation', 'menu_class' => ''));
      endif;
   ?>
+        <p class="credits">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>  |  <a href="http://12southmusic.com/" target="_blank">built by 12SM</a></p>
   </div>
-      <p class="credits">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>  |  <a href="http://12southmusic.com/" target="_blank">built by 12SM</a></p>
     </div>
   </div>
 </div>  
