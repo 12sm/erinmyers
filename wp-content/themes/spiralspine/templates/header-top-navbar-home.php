@@ -9,7 +9,6 @@
       </button>
       <a class="navbar-brand" href="<?php echo home_url(); ?>/"><img src="../assets/img/logo.png" class="img-responsive"></a>
     </div>
-
     <nav class="collapse navbar-collapse" role="navigation">
       <?php
         if (has_nav_menu('primary_navigation')) :
@@ -18,18 +17,44 @@
       ?>
     </nav>
   </div>
-  <div class="row slider">
+</header>
+  <div class="slider">
   	<?php echo do_shortcode('[rev_slider home-slider]'); ?>
   </div>
-  <div class="container-fluid">
-    <div class="row email-signup">
+  <div class="email-signup">
+    <div class="container-fluid">
+    <div class="row">
     	<div class="col-md-6 col-sm-12">
     		<h2>Help Inform, Inspire, Ignite</h2>
     		<h3>Get news to learn how.</h3>
     	</div>
     	<div class="col-md-6 col-sm-12">
-    		Email Signup Here
+    	
+<div id="mc_embed_signup">
+<form action="//spiralspine.us9.list-manage.com/subscribe/post?u=d73eb5a9058233250acd4b164&amp;id=41c0f87e4f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+  <div id="mc_embed_signup_scroll">
+    <div class="row">
+		<div class="col-md-4">
+			<input type="text" value="" name="FNAME" class="required" id="mce-FNAME" placeholder="First Name">
+		</div>
+		<div class="col-md-4">
+			<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="E-Mail">
+		</div>
+		<div class="col-md-4">
+			<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="submit-button">
+		</div>
+    </div>
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_d73eb5a9058233250acd4b164_41c0f87e4f" tabindex="-1" value=""></div>
+  </div>
+</form>
+</div>
+
+
     	</div>	
+    </div>	
     </div>
   </div>  
-</header>

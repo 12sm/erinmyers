@@ -50,9 +50,12 @@ margin-bottom: -10px;
    ========================================================================== */
 
 body {background: #fff; }
+p {color:#454545;}
 a{
    text-decoration: none!important;
+   color:#618a94;
 }
+a:hover {color:#436268;}
 h1,h2,h3,h4,h5,h6,p,a{
    font-family: "museo-sans";
 }
@@ -69,8 +72,9 @@ h2{
 h3{
    font-weight: 300;
    letter-spacing: .0px;
-   color: #fff;
+   color: #618a94;
 }
+
 .container{
    background: #fff;
 }
@@ -86,18 +90,18 @@ width: initial;
 */
 
 /*Praise for Erin*/
-.praise .line1{
+.quote-title{
    font-weight: 700;
    text-transform: uppercase;
    font-size: 25px;
    color: #fff;
 }
-.praise .line2{
+.white{
    font-weight: 100;
    font-size: 25px;
    color: #fff;
 }
-.praise .line3{
+.white b{
    font-weight: 700;
    font-size: 18px;
    color: #fff;
@@ -153,7 +157,7 @@ margin-bottom: 75px;
 .img-bg {
 padding-bottom: 100%;
 }
-.vid-thumb, .pop-thumb {
+.vid-thumb, .blog-thumb {
 padding-bottom: 45%;
 background-position: 50% 10%!important;
 }
@@ -185,6 +189,12 @@ padding-bottom: 40%;
 }
 .page-header {
 display: none;
+}
+.quote-block {
+background: #5F8993;
+padding: 15px 15px;
+color: #fff;
+text-align: center;
 }
 /* ==========================================================================
    About (See the Style Guide)
@@ -252,6 +262,8 @@ margin-bottom: 10px;
    padding: 15px 0px;
 }
 
+body.home .banner {margin:0px;}
+
 .navbar-default .navbar-nav>li>a {
 text-transform: uppercase;
 font-size: 17px;
@@ -294,11 +306,51 @@ margin: 10px 25px 0px 0px;
 .navbar-default .navbar-nav>li>a{
    color: #fff;
 }
+
+.slide-color-1 {background-color:#f2f0f1;}
+
+.email-signup {
+background: #628A94;
+text-align:center;
+margin-bottom:30px;
+border-bottom: 15px solid #436268;
+}
+
+.email-signup h2, .email-signup h3 {color:#fff;}
+
+.submit-button {
+background: #436268;
+color:#fff;
+border: none;
+font-family: 'museo-sans', Helvetica, sans-serif;	
+}
+
+.email-signup #mc_embed_signup {padding: 45px 0px;}
+.video-box i {
+font-size: 90px;
+color: rgba(255,255,255,.7);
+position: absolute;
+top: 35%;
+right: 50%;
+left: 50%;
+margin-left: -25%;
+margin-right: -25%;
+pointer-events: none;
+}
+a[title='Edit view'] {
+display: none;
+}
+.video-box {
+text-align: center;
+position: relative;
+}
 /* ==========================================================================
    Content
    ========================================================================== */
 
-.content { }
+.content {
+padding: 25px 0px;
+}
 
 .wrap.container-fluid {
 
@@ -339,7 +391,13 @@ margin: 10px 25px 0px 0px;
    Footer
    ========================================================================== */
 
-.bottom-email-signup {background: #628A94;}
+.bottom-email-signup {background: #628A94; margin-top:140px;}
+.bottom-email-signup h2,
+.bottom-email-signup h3 {color:#fff; text-align:center;}
+.bottom-email-signup #mc_embed_signup {padding: 45px 0px;}
+.erin-footer {position: absolute;top: -156px;}
+
+footer a {color:#fff;}
 .content-info{background: #436268; width:100%;}
 
 #social ul {margin:0px; padding:0px; list-style: none;}
