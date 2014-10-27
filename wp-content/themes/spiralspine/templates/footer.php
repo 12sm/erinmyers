@@ -1,14 +1,11 @@
 <div class="bottom-email-signup">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-2 erin hidden-xs hidden-sm">
-        <img src="http://spiralspine.com/assets/img/ErinFooter.png" class="erin-footer" />
-      </div>
-      <div class="col-md-5 col-sm-6">
+      <div class="col-md-6 col-sm-6">
         <h2>Inform, Inspire, Ignite</h2>
         <h3>Get news to learn how.</h3>
       </div>
-      <div class="col-md-5 col-sm-6">
+      <div class="col-md-6 col-sm-6">
         <div id="mc_embed_signup">
           <form action="//spiralspine.us9.list-manage.com/subscribe/post?u=d73eb5a9058233250acd4b164&amp;id=41c0f87e4f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll">
