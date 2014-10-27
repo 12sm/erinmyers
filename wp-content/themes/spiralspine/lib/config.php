@@ -12,7 +12,7 @@ add_theme_support('jquery-cdn');            // Enable to load jQuery from the Go
  * Configuration values
  */
 define('GOOGLE_ANALYTICS_ID', of_get_option('ga_id', 'no entry')); // UA-XXXXX-Y
-define('POST_EXCERPT_LENGTH', 40); // length in words for excerpt_length filter (ref: http://codex.wordpress.org/Plugin_API/Filter_Reference/excerpt_length)
+define('POST_EXCERPT_LENGTH', 240); // length in words for excerpt_length filter (ref: http://codex.wordpress.org/Plugin_API/Filter_Reference/excerpt_length)
 
 /**
  * .main classes
