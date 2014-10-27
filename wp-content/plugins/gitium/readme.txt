@@ -1,11 +1,11 @@
 === Gitium ===
 
 Contributors: PressLabs
-Donate link: http://www.gitium.com/
+Donate link: http://www.presslabs.com/gitium/
 Tags: git, version, versioning, deployment, version-control, github, bitbucket, travis, code, revision, testing, development, branch, production, staging, debug, plugin, gitium, presslabs, simple
 Requires at least: 3.9
-Tested up to: 3.9.1
-Stable tag: 0.4-beta
+Tested up to: 4.0
+Stable tag: 0.5.1-beta
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,11 +13,13 @@ Automatic git version control and deployment for your plugins and themes integra
 
 == Description ==
 
-Gitium enables continuous deployment for WordPress integrating with tools such as Github, Bitbucket or Travis-CI. Plugin and theme updates, installs and removals are automatically versioned. Ninja code edits from the WordPress editor are also tracked into version control. Gitium is designed for sane development environments. Staging and production can follow different branches of the same repository. You can deploy code simply trough git push.
+Gitium enables continuous deployment for WordPress, integrating with tools such as Github, Bitbucket or Travis-CI. Theme or plugin updates, installs and removals are all automatically versioned. Ninja code edits from the WordPress editor are also tracked by the version control system.
 
-Gitium requires `git` command line tool minimum version 1.7 installed on the server and `proc_open` PHP function enabled.
+Gitium is designed with sane development environments in mind, allowing staging and production to follow different branches of the same repository. You can also deploy code by simply using `git push`.
 
-Gitium is the latest element discovered in the [PressLabs](http://www.presslabs.com). Here you have the [Github](https://github.com/PressLabs/gitium) repository.
+Gitium requires `git` command line tool with a minimum version of 1.7 installed on the server and the `proc_open` PHP function enabled.
+
+Gitium is the latest element discovered at [PressLabs](http://www.presslabs.com/gitium/).
 
 == Screenshots ==
 
@@ -34,13 +36,13 @@ Gitium is the latest element discovered in the [PressLabs](http://www.presslabs.
 2. Extract the `gitium.zip` archive into the `/wp-content/plugins/` directory;
 3. Activate the plugin through the 'Plugins' menu in WordPress.
 
-Alternatively go into your WordPress dashboard and click on Plugins -> Add Plugin and search for `Gitium`. Then click on Install, then on Activate Now.
+Alternatively, go into your WordPress dashboard and click on Plugins -> Add Plugin and search for `Gitium`. Then, click on Install and, after that, on Activate Now.
 
 = Usage =
 
-Activate the plugin and follow the on screen instructions under the `Code` menu.
+Activate the plugin and follow the on-screen instructions under the `Code` menu.
 
-_IMPORTANT_: Gitium does its best not to version your WordPress core neither your `/wp-content/uploads` folder.
+_IMPORTANT_: Gitium does its best not to version your WordPress core, neither your `/wp-content/uploads` folder.
 
 == Frequently Asked Questions ==
 
@@ -48,24 +50,38 @@ _IMPORTANT_: Gitium does its best not to version your WordPress core neither you
 
 Right now this plugin is considered alpha quality and should be used in production environments only by adventurous kinds.
 
-= What happens in case of conflicts? =
+= What will happen in case of conflicts? =
 
 The behavior in case of conflicts is to overwrite the changes on the `origin` repository with the local changes (ie. local modifications take precedence over remote ones).
 
 = How to deploy automatically after a push? =
 
-You can ping the webhook url after a push to automatically deploy the new code. The webhook url can be found under `Code` menu. This url plays well with Github or Bitbucket webhooks.
+You can ping the webhook url after a push to automatically deploy the new code. The webhook url can be found under `Code` menu. This url also plays well with Github or Bitbucket webhooks.
 
 = Does it works on multi site setups? =
 
-Gitium is not supporting multisite setups at the moment.
+Gitium does not support multisite setups at the moment.
 
 = How does gitium handle submodules? =
 
-Currently submodules are not supported.
+Submodules are currently not supported.
 
 
 == Changelog ==
+
+= 0.5.1-beta =
+* Update Serbian Translation (by [Ogi Djuraskovic](http://firstsiteguide.com/))
+* Fix Menu Bubble
+
+= 0.5-beta =
+* Add `Last 20 Commits` menu page
+* Add WordPress Contextual Help menu
+* Add `Settings` menu page
+* Move `Webhook URL` and `Public Key` fields to `Settings` page
+* Add menu icon
+* The `.gitignore` file can be edited
+* Fix commit message on theme/plugin update event
+* Refactoring
 
 = 0.4-beta =
 * Add `Bitbucket` documentation link
