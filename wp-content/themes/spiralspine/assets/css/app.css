@@ -55,7 +55,7 @@ body {background: #fff; }
 p {
 color: #666666;
 text-rendering: geometricPrecision;
-font-size: 14px;
+font-size: 15px;
 line-height: 1.6em;
 margin: 0px 0 15px;
 font-weight: 300;
@@ -98,6 +98,14 @@ blockquote {
   background: #F3F6F7;
   font-weight: 200;
 }
+
+.tp-simpleresponsive .caption, .tp-simpleresponsive .tp-caption {
+position: absolute;
+-webkit-font-smoothing: antialiased !important;
+font-family: sans-serif!important;
+}
+
+
 .container{
    background: #fff;
    max-width: 100%;
