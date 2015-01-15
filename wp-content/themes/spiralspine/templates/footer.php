@@ -50,6 +50,7 @@
           <p class="credits">&copy;
             <?php echo date( 'Y'); ?>
             <?php bloginfo( 'name'); ?>| <a href="http://12southmusic.com/" target="_blank">built by 12SM</a>
+            <a href="https://plus.google.com/108186825153115138759" rel="publisher"></a>
           </p>
         </div>
       </div>

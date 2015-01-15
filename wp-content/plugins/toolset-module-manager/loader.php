@@ -65,8 +65,8 @@ final class ModMan_Loader
                 'module-manager'=>array(
                     'version'=>MODMAN_VERSION,
                     'dependencies'=>array('font-awesome', 'wp-pointer'),
-                    'path'=>MODMAN_ASSETS_URL.'/css/modman.min.css'
-                )
+                    'path'=>MODMAN_ASSETS_URL.'/css/modman.css'
+                )               
             )
         );
         

@@ -1,4 +1,5 @@
-# BEGIN HTML5 Boilerplate
+
+## BEGIN HTML5 Boilerplate
 
 ###
 ### This contains the HTML5 Boilerplate .htaccess that can be found at:
@@ -420,25 +421,7 @@ AddDefaultCharset utf-8
 #    Header set Connection Keep-Alive
 # </IfModule>
 
-# BEGIN W3TC Page Cache core
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-    RewriteCond %{HTTPS} =on
-    RewriteRule .* - [E=W3TC_SSL:_ssl]
-    RewriteCond %{SERVER_PORT} =443
-    RewriteRule .* - [E=W3TC_SSL:_ssl]
-    RewriteCond %{HTTP:Accept-Encoding} gzip
-    RewriteRule .* - [E=W3TC_ENC:_gzip]
-    RewriteCond %{REQUEST_METHOD} !=POST
-    RewriteCond %{QUERY_STRING} =""
-    RewriteCond %{REQUEST_URI} \/$
-    RewriteCond %{HTTP_COOKIE} !(comment_author|wp\-postpass|w3tc_logged_out|wordpress_logged_in|wptouch_switch_toggle) [NC]
-    RewriteCond "%{DOCUMENT_ROOT}/wp-content/cache/page_enhanced/%{HTTP_HOST}/%{REQUEST_URI}/_index%{ENV:W3TC_SSL}.html%{ENV:W3TC_ENC}" -f
-    RewriteRule .* "/wp-content/cache/page_enhanced/%{HTTP_HOST}/%{REQUEST_URI}/_index%{ENV:W3TC_SSL}.html%{ENV:W3TC_ENC}" [L]
-</IfModule>
-# END W3TC Page Cache core
-	
+# END HTML5 Boilerplate
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
